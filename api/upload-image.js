@@ -31,9 +31,11 @@ export default async function handler(req, res) {
 
   try {
     // Unggah file ke Vercel Blob
-    const blob = await put(filename, req, {
-      access: 'public', // Membuat file dapat diakses secara publik
-    });
+   // Kode BARU
+const blob = await put(filename, req, {
+  access: 'public',         // Membuat file dapat diakses secara publik
+  addRandomSuffix: true,    // <-- TAMBAHKAN BARIS INI
+});
 
     // Kirim kembali URL publik dari gambar yang baru diunggah
     return res.status(200).json({ url: blob.url });

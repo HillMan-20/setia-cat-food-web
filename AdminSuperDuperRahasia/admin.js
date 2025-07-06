@@ -1,4 +1,4 @@
-// admin.js (Versi Final dengan Unggahan ke Vercel Blob)
+// admin.js (Versi Perbaikan untuk Masalah Penyimpanan)
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         logList.prepend(newLog);
     }
 
-    // Fungsi BARU untuk mengunggah gambar ke Vercel Blob dan mendapatkan URL
     async function uploadImageAndGetUrl(file) {
         if (!file) return null;
         logActivity(`Mengunggah ${file.name}...`, 'info');
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             logActivity(`${file.name} berhasil diunggah.`, 'success');
-            return result.url; // Mengembalikan URL dari Vercel Blob
+            return result.url;
         } catch (error) {
             logActivity(`Error unggah: ${error.message}`, 'error');
             return null;
@@ -103,31 +102,64 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('hero-tagline').value = d.tagline || '';
     }
     
+    // ==================================================================
+    // ### PERBAIKAN FUNGSI UPDATE HERO ###
+    // ==================================================================
     async function updateHero() {
+        let hasChanges = false;
+
         if (!websiteData.heroData) websiteData.heroData = {};
-        websiteData.heroData.welcomeText = document.getElementById('hero-welcome').value;
-        websiteData.heroData.headline = document.getElementById('hero-headline').value;
-        websiteData.heroData.tagline = document.getElementById('hero-tagline').value;
+        
+        // Simpan data teks terlebih dahulu
+        const welcomeText = document.getElementById('hero-welcome').value;
+        const headline = document.getElementById('hero-headline').value;
+        const tagline = document.getElementById('hero-tagline').value;
 
+        if (websiteData.heroData.welcomeText !== welcomeText || websiteData.heroData.headline !== headline || websiteData.heroData.tagline !== tagline) {
+            websiteData.heroData.welcomeText = welcomeText;
+            websiteData.heroData.headline = headline;
+            websiteData.heroData.tagline = tagline;
+            hasChanges = true;
+        }
+
+        // Proses unggah gambar latar
         const bgFile = document.getElementById('hero-image-file').files[0];
-        const sideFile = document.getElementById('hero-side-image-file').files[0];
-
         if (bgFile) {
             const newUrl = await uploadImageAndGetUrl(bgFile);
-            if(newUrl) websiteData.heroData.imageUrl = newUrl;
+            if(newUrl) {
+                websiteData.heroData.imageUrl = newUrl;
+                hasChanges = true;
+            }
         }
+
+        // Proses unggah gambar samping
+        const sideFile = document.getElementById('hero-side-image-file').files[0];
         if (sideFile) {
             const newUrl = await uploadImageAndGetUrl(sideFile);
-            if (newUrl) websiteData.heroData.sideImageUrl = newUrl;
+            if (newUrl) {
+                websiteData.heroData.sideImageUrl = newUrl;
+                hasChanges = true;
+            }
         }
         
-        await saveData();
+        // Hanya simpan jika ada perubahan (baik teks maupun gambar)
+        if (hasChanges) {
+            await saveData();
+        } else {
+            logActivity("Tidak ada perubahan untuk disimpan.", "info");
+        }
     }
+    // ==================================================================
+    // ### AKHIR PERBAIKAN ###
+    // ==================================================================
+
 
     function removeHeroSideImage() {
         if (!confirm("Yakin hapus gambar samping?")) return;
-        if (websiteData.heroData) websiteData.heroData.sideImageUrl = null;
-        saveData();
+        if (websiteData.heroData) {
+            websiteData.heroData.sideImageUrl = null;
+            saveData();
+        }
     }
 
     async function updateCategoryImages() {
@@ -176,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newImageFile) {
             const newUrl = await uploadImageAndGetUrl(newImageFile);
             if (newUrl) product.imageUrl = newUrl;
-            else return; // Hentikan jika unggah gambar gagal
+            else return;
         }
         
         await saveData();
@@ -189,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!name || !imageFile) return logActivity("Nama dan Gambar harus diisi!", 'error');
 
         const imageUrl = await uploadImageAndGetUrl(imageFile);
-        if (!imageUrl) return; // Hentikan jika unggah gagal
+        if (!imageUrl) return;
 
         if (!websiteData.popularProducts) websiteData.popularProducts = [];
         websiteData.popularProducts.push({ name, imageUrl });
@@ -225,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!name || !imageFile || !category) return logActivity("Nama, Gambar, dan Kategori harus diisi!", 'error');
         
         const imageUrl = await uploadImageAndGetUrl(imageFile);
-        if(!imageUrl) return; // Hentikan jika unggah gagal
+        if(!imageUrl) return;
 
         if (!websiteData.mainProducts) websiteData.mainProducts = [];
         websiteData.mainProducts.push({ name, imageUrl, category });
@@ -259,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!imageFile) return logActivity("Pilih file gambar!", 'error');
         
         const imageUrl = await uploadImageAndGetUrl(imageFile);
-        if (!imageUrl) return; // Hentikan jika unggah gagal
+        if (!imageUrl) return;
 
         if (!websiteData.galleryImages) websiteData.galleryImages = [];
         websiteData.galleryImages.push({ imageUrl });
@@ -292,10 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await saveData();
     }
 
-    // --- INISIALISASI HALAMAN DAN EVENT LISTENER ---
-    
     async function initializeAdminPage() {
-        // Navigasi panel
         const navItems = document.querySelectorAll('.admin-nav .nav-item');
         const contentPanels = document.querySelectorAll('.content-panel');
         navItems.forEach(item => {
@@ -309,7 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Event listener dinamis (untuk tombol hapus/edit yang dibuat oleh JS)
         document.body.addEventListener('click', (e) => {
             if (e.target.matches('.btn-delete')) deleteProduct(e.target.dataset.index);
             if (e.target.matches('.btn-edit')) editProduct(e.target.dataset.index);
@@ -319,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.matches('.btn-delete-gallery')) deleteGalleryImage(e.target.dataset.index);
         });
 
-        // Event listener statis (untuk tombol yang sudah ada di HTML)
         document.getElementById('save-hero-btn')?.addEventListener('click', updateHero);
         document.getElementById('remove-hero-side-image-btn')?.addEventListener('click', removeHeroSideImage);
         document.getElementById('save-category-images-btn')?.addEventListener('click', updateCategoryImages);
@@ -328,7 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('add-gallery-image-btn')?.addEventListener('click', addGalleryImage);
         document.getElementById('save-contact-info-btn')?.addEventListener('click', updateContactInfo);
 
-        // Muat data dan render semua preview
         await fetchData();
         loadCurrentHeroData();
         loadAllProductPreviews();
@@ -337,7 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCurrentContactData();
     }
 
-    // --- LOGIKA AWAL: Tampilkan login atau konten admin ---
     function showAdminPage() {
         if(loginContainer) loginContainer.style.display = 'none';
         if(mainAdminContainer) mainAdminContainer.style.display = 'block';

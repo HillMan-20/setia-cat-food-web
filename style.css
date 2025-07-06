@@ -1,0 +1,1000 @@
+/* Import Font dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Reset dan Pengaturan Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    background-color: #1a1a1a; /* Warna fallback jika gambar tidak termuat */
+    position: relative;
+    min-height: 100vh;
+    
+}
+
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: rgba(10, 10, 10, 0.600);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0f0f0;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 4px;
+}
+
+.search-bar {
+    display: flex;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.search-bar input {
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    outline: none;
+    color: #333;
+}
+
+.search-bar button {
+    border: none;
+    background: transparent;
+    padding: 0 0.8rem;
+    cursor: pointer;
+    color: #555;
+    font-size: 1rem;
+}
+
+.menu-toggle {
+    display: none; /* Sembunyikan di desktop */
+    font-size: 1.5rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* --- Hero Section --- */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 10px; /* Memberi ruang untuk navbar fixed */
+    position: relative;
+    background-image: url('https://lh3.googleusercontent.com/p/AF1QipPTAEe2catr7c2Q32YypjetijWHDD4KTWwUMprB=w397-h298-k-no'); /* Ganti dengan gambar latar belakang Anda */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    gap: 1rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    margin-top: -40px;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+.hero-image img {
+    width: 90%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.hero-text {
+    flex: 1.2; /* Beri lebih banyak ruang untuk teks */
+}
+
+.hero-text .welcome-text {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.hero-text h1 {
+    font-size: 4.726rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.hero-text .tagline {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #fff;
+
+}
+
+/* ============================================== */
+/* --- Informasi Kontak di dalam Hero Section --- */
+/* ============================================== */
+
+/* Styling untuk blok kontak */
+.hero-contact-info {
+    /* Untuk Desktop: Posisi absolut di bagian bawah hero section */
+    position: absolute;
+    bottom: 4rem; /* Jarak dari bawah */
+    left: 0;
+    right: 0;
+    z-index: 2; /* Memastikan tampil di atas overlay gelap */
+    text-align: center;
+}
+
+.hero-contact-info a,
+.hero-contact-info p {
+    color: #e0e0e0;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    max-width: 90%; /* Agar tidak terlalu lebar di layar besar */
+}
+
+/* Gaya khusus untuk link alamat */
+.hero-contact-info .address-link {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Transisi untuk animasi */
+    transition: scale 0.3s ease;
+}
+
+/* Menghilangkan garis bawah dan menambahkan animasi saat hover */
+.hero-contact-info .address-link:hover {
+    color: #fff;
+    scale: 1.1 ;
+    text-decoration: none !important; /* Mencegah garis bawah muncul */
+    border-bottom: none; /* Menghapus border dari aturan link lain */
+    text-shadow: 0 0 0px rgba(255, 255, 255, 0.7); /* Efek cahaya (glow) */
+}
+
+.hero-contact-info .email-text {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    transition: scale 0.3s ease;
+}
+
+.hero-contact-info .email-text:hover {
+    scale: 1.1;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 0px rgba(255, 255, 255, 0.7); /* Efek cahaya (glow) */
+}
+
+/* Menambahkan ikon sebelum teks */
+.hero-contact-info .fas {
+    margin-right: 8px;
+    color: #ccc;
+}
+
+/* ========================================= */
+/* --- Desain Responsif --- */
+/* ========================================= */
+
+/* Tablet (lebar layar maks 992px) */
+@media (max-width: 992px) {
+    /* Perkecil tulisan untuk tablet */
+    .hero-text {
+        flex: 1.8; /* Beri lebih banyak ruang untuk teks */
+    }
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+    .hero-text .welcome-text {
+        font-size: 1rem;
+    }
+    .hero-text .tagline {
+        font-size: 1rem;
+    }
+    .hero-container {
+        gap: 0.5rem; /* Kurangi jarak antara gambar dan teks */
+    }
+    
+}
+
+@media (max-width: 874px) {
+    .menu-toggle {
+        display: block;
+    }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: rgba(10, 10, 10, 0.9);
+        width: 100%;
+        padding: 2rem;
+        gap: 1.5rem;
+    }
+    .nav-links.active {
+        display: flex;
+    }
+    .nav-links ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .search-bar {
+        order: -1;
+    }
+
+    .hero-contact-info {
+        /* Untuk Desktop: Posisi absolut di bagian bawah hero section */
+        position: absolute;
+        bottom: 4rem; /* Jarak dari bawah */
+        left: 0;
+        right: 0;
+        z-index: 2; /* Memastikan tampil di atas overlay gelap */
+        text-align: center;
+    }
+}
+
+/* Mobile (lebar layar maks 768px) */
+@media (max-width: 768px) {
+    /* --- Pengaturan Navigasi Mobile --- */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: rgba(10, 10, 10, 0.9);
+        width: 100%;
+        padding: 2rem;
+        gap: 1.5rem;
+    }
+    .nav-links.active {
+        display: flex;
+    }
+    .nav-links ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .search-bar {
+        order: -1;
+    }
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Gambar dan tulisan hero */
+    .hero {
+        flex-direction: column;
+        justify-content: flex-start; /* Mulai konten dari atas */
+        padding-top: 7rem; /* Beri jarak dari header */
+    }
+
+    /* 1. Atur tata letak utama menjadi kolom vertikal */
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 4rem; /* Jarak antara gambar dan teks */
+        margin-top: 50px;
+    }
+
+    .hero-text {
+        order: -1; /* Pastikan blok teks berada di atas gambar */
+    }
+
+    /* 2. Sesuaikan ukuran font agar lebih mudah dibaca */
+    .hero-text h1 {
+        font-size: 3rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .hero-text .welcome-text, .hero-text .tagline {
+        font-size: 0.8rem;
+    }
+
+    .hero-image img {
+        width: 50%;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    .hero-contact-info a, .hero-contact-info p {
+        font-size: 0.9rem;
+    }
+
+    /* 3. Atur posisi dan jarak kontak info */
+    .hero-contact-info {
+        position: static; /* Kembalikan ke alur normal */
+        margin-top: 2rem; /* Jarak dari konten di atasnya */
+        padding-bottom: 2rem;
+    }
+
+    .category-container {
+        /* Paksa untuk selalu menampilkan 2 kolom */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    /* KUNCI PERBAIKAN: Tambahkan ini untuk menyusun semuanya ke bawah */
+    .hero {
+        flex-direction: column;
+        justify-content: flex-start; /* Mulai konten dari atas */
+        padding-top: 7rem; /* Beri jarak dari header */
+    }
+
+    /* 1. Atur tata letak utama menjadi kolom vertikal */
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem; /* Jarak antara gambar dan teks */
+    }
+
+    .hero-text {
+        order: -1; /* Pastikan blok teks berada di atas gambar */
+    }
+
+    .hero-image img {
+        width: 70%;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+    
+
+    /* 2. Sesuaikan ukuran font agar lebih mudah dibaca */
+    .hero-text h1 {
+        font-size: 2rem;
+        margin-top: 0.5rem;
+    }
+    .hero-text .welcome-text, .hero-text .tagline {
+        font-size: 0.8rem;
+    }
+    .hero-contact-info a, .hero-contact-info p {
+        font-size: 0.9rem;
+    }
+
+    /* 3. Atur posisi dan jarak kontak info */
+    .hero-contact-info {
+        position: static; /* Kembalikan ke alur normal */
+        margin-top: 1rem; /* Jarak dari konten di atasnya */
+        padding-bottom: 2rem;
+    }
+
+    .category-container {
+        /* Paksa untuk selalu menampilkan 2 kolom */
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+}
+
+.popular-products {
+    padding: 4rem 0;
+    background-color: #fff;
+    color: #333;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #008f9c; /* Warna biru yang menarik */
+    margin-bottom: 3rem;
+}
+
+.carousel-container {
+    position: relative;
+    width: 90%;
+    max-width: 1280px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    align-items: center; /* Membuat item sejajar di tengah secara vertikal */
+    gap: 1px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.product-card {
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    padding: 1rem;
+    text-align: center;
+    flex-shrink: 0; /* Mencegah item menyusut */
+    width: 250px; /* Lebar default kartu produk */
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: scale(0.85); /* Sedikit lebih kecil secara default */
+    opacity: 0.7;
+}
+
+.product-card.active {
+    transform: scale(1); /* Ukuran normal saat aktif */
+    opacity: 1;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #ccc;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.product-card p {
+    font-weight: 600;
+    color: #444;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #008f9c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-button.prev {
+    left: 0px;
+    z-index: 9;
+}
+
+.carousel-button.next {
+    right: 0px;
+    z-index: 9;
+
+}
+
+/* Penyesuaian untuk Mobile */
+@media (max-width: 768px) {
+    .product-card {
+        width: 220px; /* Perkecil kartu di mobile */
+    }
+
+    .carousel-button.prev {
+        left: 5px;
+    }
+
+    .carousel-button.next {
+        right: 5px;
+    }
+    
+}
+
+/* ========================================= */
+/* --- Lightbox Styling --- */
+/* ========================================= */
+
+.lightbox-overlay {
+    position: fixed; /* Tetap di layar bahkan saat scroll */
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Latar belakang hitam transparan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Sembunyi secara default */
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain; /* Pastikan gambar tidak terdistorsi */
+    transform: scale(0.7);
+    transition: transform 0.4s ease;
+}
+
+.lightbox-overlay.active .lightbox-content {
+    transform: scale(1); /* Efek zoom saat muncul */
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.lightbox-close:hover {
+    color: #ccc;
+}
+
+/* ========================================= */
+/* --- Halaman Galeri Styling --- */
+/* ========================================= */
+
+.gallery-page {
+    padding: 7rem 0 12rem 0;
+    background-color: #fff;
+    color: #333;
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.categories-section {
+    padding: 4rem 0 2rem 0;
+    background-color: #fff;
+}
+
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.category-card {
+    position: relative;
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+}
+
+.category-card:hover{
+    transform: scale(1.05);
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay gelap */
+    transition: background-color 0.3s ease;
+}
+
+.category-card:hover::before {
+    background-color: rgba(12, 177, 192, 0.542);
+}
+
+.category-card span {
+    position: relative; /* Agar teks berada di atas overlay */
+    z-index: 2;
+}
+
+.product-page {
+    padding: 8rem 0 4rem 0;
+    background-color: #fff;
+}
+.product-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+/* Kita bisa menggunakan kembali style .product-card dari carousel */
+.product-grid-container .product-card {
+    width: 100%; /* Lebar akan diatur oleh grid */
+    transform: scale(1); /* Tampilkan ukuran normal */
+    opacity: 1;
+    cursor: pointer;
+}
+
+/* --- Penyesuaian Layout Kategori untuk Tablet/Layar Sedang --- */
+@media (min-width: 887px) and (max-width: 1191px) {
+    .category-container {
+        /* Paksa untuk selalu menampilkan 2 kolom */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ========================================= */
+/* --- Filter & Kartu Produk Halaman Produk --- */
+/* ========================================= */
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap; /* Agar responsif di layar kecil */
+}
+
+.filter-btn {
+    padding: 0.7rem 1.5rem;
+    border: 2px solid #008f9c;
+    background-color: #fff;
+    color: #333;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e0f7fa;
+}
+
+.filter-btn.active {
+    background-color: #008f9c;
+    color: #fff;
+    border-color: #008f9c;
+}
+
+/* Penambahan keterangan kategori di kartu produk */
+.product-card .category-label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* ========================================= */
+/* --- Halaman Kontak Styling --- */
+/* ========================================= */
+
+.contact-page {
+    padding: 8rem 0 4rem 0;
+    background-color: #f9f9f9;
+}
+
+.contact-wrapper {
+    display: flex;
+    gap: 2rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.contact-info, .contact-form-container {
+    flex: 1;
+}
+
+.contact-info h3, .contact-form-container h3 {
+    font-size: 1.8rem;
+    color: #008f9c;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #008f9c;
+}
+
+.contact-info p {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.contact-info .fas {
+    color: #008f9c;
+    margin-right: 1rem;
+    width: 20px;
+}
+
+.map-container {
+    margin-top: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.contact-form-container .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact-form-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.contact-form-container input,
+.contact-form-container textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #006b7569;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.contact-form-container .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background-color: #008f9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-form-container .submit-btn:hover {
+    background-color: #005f6b;
+}
+
+@media (max-width: 992px) {
+    .contact-wrapper {
+        flex-direction: column;
+    }
+}
+
+/* ========================================= */
+/* --- Footer Styling --- */
+/* ========================================= */
+/* === FOOTER === */
+.site-footer {
+    background-color: #000000;
+    color: #bdc3c7;
+    padding: 3rem 0 0 0;
+    margin-top: auto;
+}
+
+/* Style BARU untuk logo di atas */
+.footer-logo-top {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+}
+
+.footer-logo-top img {
+    max-width: 50%; /* Sesuaikan ukuran logo jika perlu */
+}
+
+/* Disesuaikan untuk 3 kolom dengan jarak sama */
+.footer-columns-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-bottom: 3rem;
+}
+
+.footer-column {
+    flex: 1; /* <-- Kunci agar lebar kolom sama */
+    min-width: 220px;
+    text-align: center; /* Buat teks rata tengah agar rapi */
+}
+
+.footer-column h4 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+    display: inline-block; /* Agar garis bawah mengikuti lebar teks */
+}
+
+.footer-column h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%; /* Pindahkan garis bawah ke tengah */
+    transform: translateX(-50%);
+    width: 100%;
+    height: 2px;
+    background-color: #008f9c;
+}
+
+.footer-column p {
+    line-height: 1.7;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.7rem;
+    transition: color 0.3s, letter-spacing 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: #fff;
+    letter-spacing: 1px; /* Efek hover baru */
+}
+
+.social-links {
+    margin-top: -0.5rem; /* Naikkan sedikit posisi ikon */
+}
+
+.social-links a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #34495e;
+    color: #fff;
+    border-radius: 50%;
+    margin: 0 0.3rem;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.social-links a:hover {
+    background-color: #008f9c;
+    transform: translateY(-3px); /* Efek hover baru */
+}
+
+.footer-bottom {
+    background-color: #000000;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
+
+/* Styling untuk subtitle di bawah judul section */
+.section-subtitle {
+    text-align: center;
+    color: #555;
+    max-width: 700px;
+    margin: -2rem auto 3rem auto; /* Atur jarak dari judul dan ke konten di bawahnya */
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* ========================================= */
+/* --- Styling Section Showcase Kategori --- */
+/* ========================================= */
+
+.category-showcase {
+    padding: 2rem 0 4rem 0;
+    background-color: #fff;
+}
+
+/* Memberi garis pemisah antar section */
+.category-showcase + .category-showcase {
+    border-top: 1px solid #f0f0f0;
+    padding-top: 4rem;
+}
+
+.see-more-btn {
+    display: block;
+    width: fit-content;
+    margin: 1.5rem 0 0 auto; /* Posisi di kanan */
+    margin-right: 10%; /* Sejajar dengan container carousel */
+    color: #008f9c;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.see-more-btn:hover {
+    transform: translateX(5px);
+}

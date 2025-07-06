@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setia Cat Food - Beranda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Setia Cat Food</a>
+            <nav class="nav-links">
+                <form class="search-bar" id="search-form">
+                    <input type="text" id="search-input" placeholder="Cari...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <ul>
+                    <li><a href="index.html" class="active">Beranda</a></li>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="galeri.html">Galeri</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Buka menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="hero" id="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="pembatas">
+            <div class="container hero-container">
+                <div class="hero-image">
+                    <img src="https://i.ibb.co/6yFvFys/image-ca6525-left.jpg" alt="Rak produk makanan kucing">
+                </div>
+                <div class="hero-text">
+                    <p id="hero-welcome-text" class="welcome-text">Selamat datang di</p>
+                    <h1 id="hero-main-headline">Setia Cat Food</h1>
+                    <p id="hero-main-tagline" class="tagline">Menyediakan makanan, aksesoris, dan kebutuhan lainnya untuk kucing anda</p>
+                </div>
+            </div>
+        </div>
+        <div class="hero-contact-info">
+            <a href="https://www.google.com/maps/search/?api=1&query=$Jl.%20Pemuda,%20Sei%20Jang,%20Kec.%20Bukit%20Bestari,%20Kota%20Tanjung%20Pinang" target="_blank" rel="noopener noreferrer" class="address-link">
+                <i class="fas fa-map-marker-alt"></i> Jl. Pemuda, Sei Jang, Kec. Bukit Bestari, Kota Tanjung Pinang
+            </a>
+            <a href="mailto:setiacatfd@gmail.com" class="email-text">
+                <i class="fas fa-envelope"></i> setiacatfd@gmail.com
+            </a>
+        </div>
+    </main>
+
+    <section class="categories-section">
+        <div class="category-container" id="category-links">
+            </div>
+    </section>
+
+    <section class="popular-products">
+        <h2 class="section-title">Produk Populer</h2>
+        <div class="carousel-container">
+            <div class="carousel-track"></div>
+            <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+
+    <section class="category-showcase">
+        <h2 class="section-title">Makanan Kering</h2>
+        <div class="carousel-container">
+            <div id="makanan-kering-track" class="carousel-track"></div>
+            <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <a href="produk.html?kategori=Makanan%20Kering" class="see-more-btn">Selengkapnya >></a>
+    </section>
+
+    <section class="category-showcase">
+        <h2 class="section-title">Makanan Basah</h2>
+        <div class="carousel-container">
+            <div id="makanan-basah-track" class="carousel-track"></div>
+            <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <a href="produk.html?kategori=Makanan%20Basah" class="see-more-btn">Selengkapnya >></a>
+    </section>
+
+    <section class="category-showcase">
+        <h2 class="section-title">Aksesoris</h2>
+        <div class="carousel-container">
+            <div id="aksesoris-track" class="carousel-track"></div>
+            <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <a href="produk.html?kategori=Aksesoris" class="see-more-btn">Selengkapnya >></a>
+    </section>
+
+    <section class="category-showcase">
+        <h2 class="section-title">Obat-obatan</h2>
+        <div class="carousel-container">
+            <div id="obat-obatan-track" class="carousel-track"></div>
+            <button class="carousel-button prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-button next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <a href="produk.html?kategori=Obat-obatan" class="see-more-btn">Selengkapnya >></a>
+    </section>
+
+    <div id="lightbox-overlay" class="lightbox-overlay">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <script src="script.js" defer></script>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-logo-top">
+                <img src="logoSCF.png" alt="Setia Cat Food Logo">
+            </div>
+    
+            <div class="footer-columns-wrapper">
+                <div class="footer-column">
+                    <h4>Tentang Kami</h4>
+                    <p>Setia Cat Food menyediakan semua kebutuhan kucing kesayangan Anda dengan produk berkualitas dan harga terjangkau.</p>
+                </div>
+    
+                <div class="footer-column">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="produk.html">Produk</a></li>
+                        <li><a href="galeri.html">Galeri</a></li>
+                        <li><a href="kontak.html">Kontak</a></li>
+                    </ul>
+                </div>
+    
+                <div class="footer-column">
+                    <h4>Kontak Kami</h4>
+                    <div class="social-links">
+                        <a href="mailto:setiacatfd@gmail.com" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+62811704462" aria-label="Telepon">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> Setia Cat Food. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

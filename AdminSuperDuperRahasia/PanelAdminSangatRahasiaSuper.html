@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Setia Cat Food</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header class="admin-header">
+        <h1>Admin Panel</h1>
+    </header>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <a href="#" class="nav-item active" data-target="panel-beranda">
+                    <i class="fas fa-home"></i> Beranda
+                </a>
+                <a href="#" class="nav-item" data-target="panel-produk">
+                    <i class="fas fa-box-open"></i> Produk
+                </a>
+                <a href="#" class="nav-item" data-target="panel-galeri">
+                    <i class="fas fa-images"></i> Galeri
+                </a>
+                <a href="#" class="nav-item" data-target="panel-kontak">
+                    <i class="fas fa-address-book"></i> Kontak
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <div id="panel-beranda" class="content-panel active">
+                <h2>Kelola Halaman Beranda</h2>
+                <section class="form-section">
+                    <h3>Hero Section</h3>
+                    <div class="form-grid-2-col">
+                        <div class="form-group">
+                            <label for="hero-welcome">Teks Sambutan:</label>
+                            <input type="text" id="hero-welcome">
+                        </div>
+                        <div class="form-group">
+                            <label for="hero-headline">Judul Utama:</label>
+                            <input type="text" id="hero-headline">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hero-tagline">Tagline:</label>
+                        <textarea id="hero-tagline"></textarea>
+                    </div>
+                    <div class="form-grid-2-col">
+                        <div class="form-group">
+                            <label for="hero-image-file">Gambar Latar Belakang:</label>
+                            <input type="file" id="hero-image-file" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="hero-side-image-file">Gambar Samping (Rak):</label>
+                            <input type="file" id="hero-side-image-file" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-grid-2-col">
+                        <button onclick="updateHero()">Simpan Perubahan Hero</button>
+                        <button onclick="removeHeroSideImage()" class="delete-btn">Hapus Gambar Samping</button>
+                    </div>
+                </section>
+                
+                <section class="form-section">
+                    <h3>Gambar Kategori Produk</h3>
+                    <div class="form-grid-2-col">
+                        <div class="form-group">
+                            <label for="category-image-makanan-kering">Makanan Kering:</label>
+                            <input type="file" id="category-image-makanan-kering" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="category-image-makanan-basah">Makanan Basah:</label>
+                            <input type="file" id="category-image-makanan-basah" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="category-image-aksesoris">Aksesoris:</label>
+                            <input type="file" id="category-image-aksesoris" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="category-image-obat-obatan">Obat-obatan:</label>
+                            <input type="file" id="category-image-obat-obatan" accept="image/*">
+                        </div>
+                    </div>
+                    <button onclick="updateCategoryImages()">Simpan Gambar Kategori</button>
+                </section>
+
+                <section class="form-section">
+                    <h3>Produk Populer (Carousel)</h3>
+                    <div class="form-grid-2-col">
+                        <div class="form-group">
+                            <label for="product-name">Nama Produk:</label>
+                            <input type="text" id="product-name" placeholder="Nama Produk">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-image-file">Gambar Produk:</label>
+                            <input type="file" id="product-image-file" accept="image/*">
+                        </div>
+                    </div>
+                    <button onclick="addProduct()">Tambah Produk Populer</button>
+                    <div class="preview-section">
+                        <h4>Preview:</h4>
+                        <div id="product-preview-container" class="preview-grid"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="panel-produk" class="content-panel">
+                <h2>Kelola Halaman Produk</h2>
+                <section class="form-section">
+                    <h3>Tambah Produk Baru</h3>
+                    <div class="form-group">
+                        <label for="main-product-name">Nama Produk:</label>
+                        <input type="text" id="main-product-name" placeholder="Nama Produk">
+                    </div>
+                    <div class="form-group">
+                        <label for="main-product-image-file">Gambar Produk:</label>
+                        <input type="file" id="main-product-image-file" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="main-product-category">Pilih Kategori Produk:</label>
+                        <select id="main-product-category">
+                            <option value="Makanan Kering">Makanan Kering</option>
+                            <option value="Makanan Basah">Makanan Basah</option>
+                            <option value="Aksesoris">Aksesoris</option>
+                            <option value="Obat-obatan">Obat-obatan</option>
+                        </select>
+                    </div>
+                    <button onclick="addMainProduct()">Tambah ke Halaman Produk</button>
+                </section>
+                <section class="preview-section">
+                    <h3>Preview Semua Produk:</h3>
+                    <div id="main-product-preview-container" class="preview-grid"></div>
+                </section>
+            </div>
+
+            <div id="panel-galeri" class="content-panel">
+                <h2>Kelola Galeri Foto</h2>
+                <section class="form-section">
+                    <h3>Tambah Foto Baru</h3>
+                    <div class="form-group">
+                        <label for="gallery-image-file">Pilih Gambar:</label>
+                        <input type="file" id="gallery-image-file" accept="image/*">
+                    </div>
+                    <button onclick="addGalleryImage()">Tambah Foto</button>
+                </section>
+                <section class="preview-section">
+                    <h3>Preview Galeri:</h3>
+                    <div id="gallery-preview-container" class="preview-grid"></div>
+                </section>
+            </div>
+
+            <div id="panel-kontak" class="content-panel">
+                <h2>Kelola Halaman Kontak</h2>
+                <section class="form-section">
+                    <div class="form-group">
+                        <label for="admin-contact-address">Alamat Toko:</label>
+                        <input type="text" id="admin-contact-address" placeholder="Masukkan alamat lengkap">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-contact-email">Email Kontak:</label>
+                        <input type="email" id="admin-contact-email" placeholder="Masukkan alamat email">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-contact-phone">Nomor Telepon/HP:</label>
+                        <input type="tel" id="admin-contact-phone" placeholder="Masukkan nomor telepon">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-contact-map">URL Embed Google Maps:</label>
+                        <textarea id="admin-contact-map" placeholder="Paste kode 'src' dari Google Maps Embed di sini"></textarea>
+                        <small>Cara mendapatkan: Buka Google Maps, cari lokasi Anda, klik Share > Embed a map, lalu copy hanya bagian URL di dalam atribut `src`.</small>
+                    </div>
+                    <button onclick="updateContactInfo()">Simpan Info Kontak</button>
+                </section>
+            </div>
+        </main>
+
+        <aside id="log-sidebar">
+            <h2>Log Aktivitas</h2>
+            <ul id="log-list"></ul>
+        </aside>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

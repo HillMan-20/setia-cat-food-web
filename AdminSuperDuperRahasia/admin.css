@@ -1,3 +1,5 @@
+/* admin.css */
+
 /* Reset dan Font Dasar */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -6,15 +8,76 @@ body {
     color: #333;
 }
 
-/* Header Utama */
+/* --- STYLE BARU UNTUK LOGIN CONTAINER --- */
+#login-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5;
+}
+
+.login-box {
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #008f9c;
+}
+
+.login-box .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: #008f9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.login-box button:hover {
+    background-color: #005f6b;
+}
+
+/* Header Utama Admin */
 .admin-header {
     background-color: #fff;
     padding: 1rem 2rem;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .admin-header h1 {
-    text-align: center;
     color: #008f9c;
     font-size: 1.8rem;
 }
@@ -47,6 +110,7 @@ body {
     font-weight: 600;
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-bottom: 0.5rem;
+    cursor: pointer;
 }
 .admin-nav .nav-item:hover {
     background-color: #eaf6f7;
@@ -59,7 +123,6 @@ body {
 /* Konten Utama Tengah */
 .admin-content {
     flex-grow: 1;
-    flex-shrink: 0;
     background-color: #fff;
     padding: 1.5rem;
     border-radius: 8px;
@@ -88,7 +151,7 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* --- TATA LETAK FORM BARU --- */
+/* TATA LETAK FORM */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -105,6 +168,8 @@ body {
     font-size: 0.9rem;
 }
 .form-section input[type="text"],
+.form-section input[type="email"],
+.form-section input[type="tel"],
 .form-section textarea,
 .form-section input[type="file"],
 .form-section select {
@@ -119,7 +184,7 @@ body {
     min-height: 80px;
     resize: vertical;
 }
-.form-section button {
+.form-section button, .btn-delete {
     display: block;
     width: 100%;
     padding: 0.8rem;
@@ -136,14 +201,14 @@ body {
 .form-section button:hover {
     background-color: #005f6b;
 }
-.form-section .delete-btn {
-    background-color: #e74c3c;
+.delete-btn, .btn-delete {
+    background-color: #e74c3c !important;
 }
-.form-section .delete-btn:hover {
-    background-color: #c0392b;
+.delete-btn:hover, .btn-delete:hover {
+    background-color: #c0392b !important;
 }
 
-/* --- TATA LETAK PREVIEW BARU --- */
+/* TATA LETAK PREVIEW */
 .preview-section {
     margin-top: 2rem;
 }
@@ -153,7 +218,6 @@ body {
 }
 .preview-grid {
     display: grid;
-    /* Membuat maksimal 6 kolom, dan akan responsif ke bawah */
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 1rem;
 }
@@ -166,20 +230,29 @@ body {
 }
 .preview-card img {
     width: 100%;
-    height: 80px; /* Ukuran gambar diperkecil */
+    height: 80px;
     object-fit: cover;
     border-radius: 5px;
     margin-bottom: 0.5rem;
 }
 .preview-card p {
-    font-size: 0.8rem; /* Ukuran teks diperkecil */
+    font-size: 0.8rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 .preview-card button {
     padding: 0.3rem 0.6rem;
     font-size: 0.7rem;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0 2px;
 }
+.preview-card .btn-edit { background-color: #f1c40f; }
+.preview-card .save-edit-btn { background-color: #2ecc71; }
+.preview-card .cancel-edit-btn, .preview-card .btn-delete-main, .preview-card .btn-delete-gallery { background-color: #e74c3c; }
+
 
 /* Sidebar Log Kanan */
 #log-sidebar {
@@ -196,123 +269,9 @@ body {
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #eee;
 }
-#log-list {
-    list-style: none;
-    padding: 0;
-    font-size: 0.85rem;
-}
-#log-list li {
-    padding: 0.6rem;
-    border-bottom: 1px solid #f0f0f0;
-}
-#log-list li:first-child {
-    font-weight: bold;
-}
+#log-list { list-style: none; padding: 0; font-size: 0.85rem; height: 80vh; overflow-y: auto; }
+#log-list li { padding: 0.6rem; border-bottom: 1px solid #f0f0f0; }
+#log-list li:first-child { font-weight: bold; }
 #log-list li.success { background-color: #e8f5e9; color: #2e7d32; }
 #log-list li.info { color: #555; }
 #log-list li.error { background-color: #ffebee; color: #c62828; }
-
-
-/* Penyesuaian Responsif */
-@media (max-width: 1200px) {
-    .admin-layout {
-        flex-direction: column;
-    }
-    .admin-sidebar, #log-sidebar {
-        width: 100%;
-        height: auto;
-    }
-    .admin-nav {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-    }
-}
-
-/* Untuk Layar Tablet Sedang */
-@media (max-width: 1199px) and (min-width: 850px) {
-    .admin-layout {
-        /* Mengubah layout menjadi grid untuk kontrol penuh */
-        display: grid;
-        grid-template-columns: 1fr 320px; /* Kolom 1: fleksibel, Kolom 2: lebar tetap untuk log */
-        grid-template-rows: auto 1fr; /* Baris 1: untuk nav, Baris 2: untuk konten */
-        grid-template-areas:
-            "nav nav"
-            "content log";
-        gap: 1.5rem;
-    }
-
-    .admin-sidebar {
-        grid-area: nav; /* Tempatkan sidebar kiri di area 'nav' (atas, full width) */
-        width: 100%;
-    }
-
-    .admin-nav {
-        flex-direction: row; /* Buat tombol navigasi menjadi horizontal */
-        justify-content: flex-start;
-    }
-
-    .admin-content {
-        grid-area: content; /* Tempatkan konten utama di area 'content' */
-        margin: 0; /* Hapus margin default */
-    }
-
-    #log-sidebar {
-        grid-area: log; /* Tempatkan log di area 'log' */
-        width: 100%; /* Lebar akan diatur oleh grid-template-columns */
-        margin: 0;
-        align-self: start; /* Pastikan tinggi log tidak stretch */
-    }
-}
-
-/* Untuk Layar Mobile */
-@media (max-width: 849px) {
-    .admin-layout {
-        flex-direction: column; /* Semua elemen ditumpuk ke bawah */
-    }
-
-    /* Semua komponen (nav, content, log) akan memiliki lebar penuh */
-    .admin-sidebar,
-    .admin-content,
-    #log-sidebar {
-        width: 100%;
-        margin: 0 0 1.5rem 0; /* Beri jarak bawah antar elemen */
-    }
-
-    .admin-nav {
-        flex-direction: column; /* Kembalikan tombol nav menjadi vertikal */
-    }
-}
-
-/* ========================================= */
-/* --- Styling Tombol Preview Card --- */
-/* ========================================= */
-
-/* Aturan umum untuk semua tombol di preview card */
-.preview-card button {
-    border: none;
-    color: white;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-    width: auto;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: opacity 0.2s ease;
-}
-
-.preview-card button:hover {
-    opacity: 0.8;
-}
-
-/* Tombol Edit berwarna KUNING */
-.preview-card .btn-edit {
-    background-color: #f1c40f;
-    width: 100%;
-}
-
-/* Tombol Hapus berwarna MERAH */
-.preview-card .btn-delete {
-    background-color: #e74c3c;
-    width: 100%;
-}

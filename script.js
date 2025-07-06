@@ -1,13 +1,9 @@
-// script.js (Versi Final dengan Koneksi API untuk Data & Formulir Kontak)
+// script.js (Versi Final dengan Pencarian & Lightbox Aktif)
 
 // --- FUNGSI UTAMA & INISIALISASI ---
 
-// Fungsi ini akan berjalan setelah semua elemen HTML selesai dimuat.
 document.addEventListener('DOMContentLoaded', () => {
-    // Menjalankan fungsi spesifik untuk memuat dan merender konten halaman
     loadAndRenderPage();
-    
-    // Inisialisasi fungsi universal yang ada di setiap halaman
     initMenuToggle();
     initLightbox();
     initSearch();
@@ -15,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- FUNGSI-FUNGSI BARU UNTUK MENGAMBIL DATA & MENGIRIM PESAN ---
+// --- FUNGSI-FUNGSI API ---
 
 async function loadAndRenderPage() {
     let websiteData;
@@ -25,13 +21,11 @@ async function loadAndRenderPage() {
         websiteData = await response.json();
     } catch (error) {
         console.error(error);
-        websiteData = {}; // Fallback ke data kosong jika terjadi error
+        websiteData = {}; 
     }
 
-    // Tentukan halaman mana yang sedang aktif dan panggil fungsi render yang sesuai
     if (document.querySelector('.hero')) {
         loadHomePage(websiteData);
-        // Inisialisasi SEMUA carousel setelah render
         document.querySelectorAll('.carousel-container').forEach(initCarousel);
     }
     if (document.querySelector('.gallery-page')) {
@@ -42,7 +36,6 @@ async function loadAndRenderPage() {
     }
     if (document.querySelector('.contact-page')) {
         loadContactPage(websiteData.contactPageData || {});
-        // Inisialisasi formulir kontak baru dengan logika API
         initApiContactForm();
     }
 }
@@ -82,11 +75,11 @@ function initApiContactForm() {
 }
 
 
-// --- FUNGSI LAMA ANDA (UNIVERSAL & RENDER) ---
+// --- FUNGSI UNIVERSAL ---
 
 function initMenuToggle() {
     const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-links');
+    const navLinks = document.querySelector('.nav-links');
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
     }
@@ -97,13 +90,25 @@ function initLightbox() {
     if (!lightboxOverlay) return;
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.querySelector('.lightbox-close');
+
     document.body.addEventListener('click', (e) => {
-        const clickedImage = e.target.closest('.product-card img, .gallery-item img');
+        // ==================================================================
+        // ### PERUBAHAN LIGHTBOX DI SINI ###
+        // Menambahkan '.hero-image img' ke dalam daftar target klik.
+        // ==================================================================
+        const clickedImage = e.target.closest('.product-card img, .gallery-item img, .hero-image img');
+        // ==================================================================
+
         if (clickedImage) {
+            // Hindari mengaktifkan lightbox untuk gambar di dalam preview admin
+            if (clickedImage.closest('.preview-card')) {
+                return;
+            }
             lightboxImg.src = clickedImage.src;
             lightboxOverlay.classList.add('active');
         }
     });
+
     const closeLightbox = () => lightboxOverlay.classList.remove('active');
     if(closeBtn) closeBtn.addEventListener('click', closeLightbox);
     lightboxOverlay.addEventListener('click', (e) => {
@@ -111,10 +116,12 @@ function initLightbox() {
     });
 }
 
+
 function initSearch() {
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
     if (!searchForm || !searchInput) return;
+
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const query = searchInput.value.trim();
@@ -131,13 +138,14 @@ function initAutoYear() {
     }
 }
 
+// --- FUNGSI RENDER KONTEN HALAMAN ---
+
 function loadHomePage(data) {
     const heroData = data.heroData || {};
     const popularProducts = data.popularProducts || [];
     const categories = data.productCategories || [];
     const mainProducts = data.mainProducts || [];
     
-    // Hero Section
     const heroSection = document.getElementById('hero-section');
     const heroSideImageContainer = document.querySelector('.hero-image');
     if (heroSection) {
@@ -160,11 +168,10 @@ function loadHomePage(data) {
     if(addressLink) addressLink.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${contactInfo.address || 'Alamat belum diatur'}`;
     if(emailText) emailText.innerHTML = `<i class="fas fa-envelope"></i> ${contactInfo.email || 'Email belum diatur'}`;
 
-    // Categories
     const categoryContainer = document.getElementById('category-links');
     if (categoryContainer) {
         categoryContainer.innerHTML = '';
-        categories.forEach(cat => {
+        (categories || []).forEach(cat => {
             const card = document.createElement('a');
             card.className = 'category-card';
             card.href = `produk.html?kategori=${encodeURIComponent(cat.name)}`;
@@ -174,7 +181,6 @@ function loadHomePage(data) {
         });
     }
 
-    // Popular Products
     const popularTrack = document.querySelector('.popular-products .carousel-track');
     if (popularTrack) {
         popularTrack.innerHTML = '';
@@ -190,7 +196,6 @@ function loadHomePage(data) {
         }
     }
 
-    // Category Showcases
     createCategoryCarousel('Makanan Kering', '#makanan-kering-track', mainProducts);
     createCategoryCarousel('Makanan Basah', '#makanan-basah-track', mainProducts);
     createCategoryCarousel('Aksesoris', '#aksesoris-track', mainProducts);
@@ -235,7 +240,7 @@ function loadProductPage(allProducts) {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const productGrid = document.querySelector('.product-grid-container');
     const pageTitle = document.querySelector('.product-page .section-title');
-    if (!productGrid || filterButtons.length === 0) return;
+    if (!productGrid) return;
 
     const categoryOrder = ['Makanan Kering', 'Makanan Basah', 'Aksesoris', 'Obat-obatan'];
     (allProducts || []).sort((a, b) => {
@@ -253,7 +258,7 @@ function loadProductPage(allProducts) {
     }
 
     const displayProducts = (category) => {
-        let filtered = (category === 'all') ? productsToDisplay : productsToDisplay.filter(p => p.category === category);
+        let filtered = (category === 'all' || !category) ? productsToDisplay : productsToDisplay.filter(p => p.category === category);
         productGrid.innerHTML = '';
         if (filtered.length > 0) {
             filtered.forEach(product => {
@@ -266,23 +271,31 @@ function loadProductPage(allProducts) {
             productGrid.innerHTML = `<p style="color:#555; width:100%; text-align:center; grid-column: 1 / -1;">Produk tidak ditemukan.</p>`;
         }
     };
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const category = button.dataset.category;
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            displayProducts(category);
+    
+    if (filterButtons.length > 0) {
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.dataset.category;
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                displayProducts(category);
+            });
         });
-    });
 
-    if (categoryFromURL && !searchQuery) {
-        const targetButton = document.querySelector(`.filter-btn[data-category="${categoryFromURL}"]`);
-        if (targetButton) targetButton.click();
+        if (categoryFromURL && !searchQuery) {
+            const targetButton = document.querySelector(`.filter-btn[data-category="${categoryFromURL}"]`);
+            if (targetButton) targetButton.click();
+        } else {
+            // Default to 'all' if no category is specified
+             const allButton = document.querySelector('.filter-btn[data-category="all"]');
+             if(allButton) allButton.classList.add('active');
+            displayProducts('all');
+        }
     } else {
-        displayProducts('all');
+         displayProducts('all');
     }
 }
+
 
 function loadContactPage(contactData) {
     if (Object.keys(contactData).length > 0) {
@@ -319,8 +332,8 @@ function initCarousel(carouselContainer) {
     for (let i = 0; i < cloneCount; i++) {
         track.appendChild(originalCards[i].cloneNode(true));
     }
-    for (let i = 0; i < cloneCount; i++) {
-        track.prepend(originalCards[originalCards.length - 1 - i].cloneNode(true));
+    for (let i = originalCards.length - 1; i >= originalCards.length - cloneCount; i--) {
+        track.prepend(originalCards[i].cloneNode(true));
     }
 
     let allCards = Array.from(track.children);
@@ -359,7 +372,7 @@ function initCarousel(carouselContainer) {
             setPosition(false);
         }
         if (currentIndex < cloneCount) {
-            currentIndex = originalCards.length;
+            currentIndex = originalCards.length + cloneCount - 1;
             setPosition(false);
         }
     });

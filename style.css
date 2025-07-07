@@ -1065,3 +1065,29 @@ body {
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite linear;
 }
+
+/* Tambahkan ini ke dalam blok CSS Skeleton di style.css */
+
+/* Kerangka untuk Hero Section */
+.skeleton-hero-image {
+    width: 90%;
+    height: 450px; /* Sesuaikan dengan tinggi gambar hero Anda */
+    border-radius: 12px;
+}
+.hero-text .skeleton {
+    display: inline-block;
+    vertical-align: middle;
+}
+.hero-text .skeleton-line-small { width: 150px; height: 1.5rem; margin-bottom: 0.5rem; }
+.hero-text .skeleton-line-large { width: 400px; height: 4rem; margin-bottom: 0.5rem; }
+.hero-text .skeleton-line-medium { width: 300px; height: 1.2rem; }
+
+.skeleton-wrapper {
+    display: inline-flex !important;
+    align-items: center;
+}
+.skeleton-wrapper .skeleton {
+    display: inline-block;
+}
+.skeleton-line-contact { width: 400px; height: 1rem; }
+.skeleton-line-contact-small { width: 200px; height: 1rem; }

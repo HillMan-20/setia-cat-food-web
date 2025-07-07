@@ -1091,3 +1091,14 @@ body {
 }
 .skeleton-line-contact { width: 400px; height: 1rem; }
 .skeleton-line-contact-small { width: 200px; height: 1rem; }
+/* ========================================= */
+/* --- Penambahan Jarak untuk Footer --- */
+/* ========================================= */
+.product-page,
+.gallery-page{
+    padding-bottom: 25rem;
+}
+
+.contact-page{
+    padding-bottom: 15rem; /* Anda bisa sesuaikan nilainya jika kurang pas */
+}

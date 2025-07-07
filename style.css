@@ -998,3 +998,70 @@ body {
 .see-more-btn:hover {
     transform: translateX(5px);
 }
+
+/* ========================================= */
+/* --- Loading Skeleton Styling (Lengkap) --- */
+/* ========================================= */
+
+.skeleton {
+    background: linear-gradient(90deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Kerangka untuk Kartu Produk & Kategori */
+.product-card-skeleton {
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    padding: 1rem;
+    width: 100%;
+}
+.product-card-skeleton .skeleton-image { height: 200px; margin-bottom: 1.5rem; }
+.product-card-skeleton .skeleton-text { width: 80%; height: 20px; margin-bottom: 1rem; }
+.product-card-skeleton .skeleton-text-small { width: 50%; height: 16px; }
+.product-card-skeleton > div { /* Terapkan animasi ke anak div */
+    background: linear-gradient(90deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 10px;
+}
+
+/* Kerangka untuk Galeri */
+.gallery-item-skeleton {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+/* Kerangka untuk Halaman Kontak */
+.contact-info .skeleton-line {
+    width: 70%;
+    height: 24px;
+    margin-bottom: 1.2rem;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+.contact-info .skeleton-map {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    margin-top: 2rem;
+    background: linear-gradient(90deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}

@@ -1,9 +1,12 @@
-// script.js (Versi Final dengan Pencarian & Lightbox Aktif)
+// script.js (Versi Final dengan Caching sessionStorage)
 
 // --- FUNGSI UTAMA & INISIALISASI ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadAndRenderPage();
+    // Fungsi loadAndRenderPage sekarang akan menangani caching.
+    loadAndRenderPage(); 
+    
+    // Fungsi lainnya tetap sama.
     initMenuToggle();
     initLightbox();
     initSearch();
@@ -13,17 +16,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- FUNGSI-FUNGSI API ---
 
+// ==================================================================
+// ### PERBAIKAN FUNGSI INTI DENGAN LOGIKA CACHING ###
+// ==================================================================
 async function loadAndRenderPage() {
+    const cacheKey = 'websiteDataCache';
     let websiteData;
-    try {
-        const response = await fetch('/api/data');
-        if (!response.ok) throw new Error('Data tidak dapat dimuat dari server.');
-        websiteData = await response.json();
-    } catch (error) {
-        console.error(error);
-        websiteData = {}; 
+
+    // 1. Cek apakah ada data di cache sessionStorage
+    const cachedData = sessionStorage.getItem(cacheKey);
+
+    if (cachedData) {
+        // 2. Jika ada, langsung gunakan data dari cache (tanpa loading)
+        console.log("Memuat data dari cache...");
+        websiteData = JSON.parse(cachedData);
+    } else {
+        // 3. Jika tidak ada, fetch data baru dari server
+        console.log("Cache kosong, memuat data baru dari server...");
+        try {
+            const response = await fetch('/api/data');
+            if (!response.ok) throw new Error('Data tidak dapat dimuat dari server.');
+            websiteData = await response.json();
+
+            // 4. Simpan data baru ke dalam cache untuk digunakan nanti
+            sessionStorage.setItem(cacheKey, JSON.stringify(websiteData));
+
+        } catch (error) {
+            console.error(error);
+            websiteData = {}; 
+        }
     }
 
+    // Bagian render tetap sama, menggunakan data yang sudah didapat (baik dari cache atau fetch)
     if (document.querySelector('.hero')) {
         loadHomePage(websiteData);
         document.querySelectorAll('.carousel-container').forEach(initCarousel);
@@ -32,6 +56,9 @@ async function loadAndRenderPage() {
         loadGalleryPage(websiteData.galleryImages || []);
     }
     if (document.querySelector('.product-page')) {
+        // Sembunyikan skeleton sebelum render
+        const skeletonContainer = document.querySelector('.product-grid-container');
+        if (skeletonContainer) skeletonContainer.innerHTML = '';
         loadProductPage(websiteData.mainProducts || []);
     }
     if (document.querySelector('.contact-page')) {
@@ -39,6 +66,10 @@ async function loadAndRenderPage() {
         initApiContactForm();
     }
 }
+// ==================================================================
+// ### AKHIR PERBAIKAN ###
+// ==================================================================
+
 
 function initApiContactForm() {
     const contactForm = document.getElementById('contact-form');
@@ -92,15 +123,9 @@ function initLightbox() {
     const closeBtn = document.querySelector('.lightbox-close');
 
     document.body.addEventListener('click', (e) => {
-        // ==================================================================
-        // ### PERUBAHAN LIGHTBOX DI SINI ###
-        // Menambahkan '.hero-image img' ke dalam daftar target klik.
-        // ==================================================================
         const clickedImage = e.target.closest('.product-card img, .gallery-item img, .hero-image img');
-        // ==================================================================
-
+        
         if (clickedImage) {
-            // Hindari mengaktifkan lightbox untuk gambar di dalam preview admin
             if (clickedImage.closest('.preview-card')) {
                 return;
             }
@@ -146,6 +171,12 @@ function loadHomePage(data) {
     const categories = data.productCategories || [];
     const mainProducts = data.mainProducts || [];
     
+    // Sembunyikan skeleton sebelum render
+    document.getElementById('category-links')?.querySelectorAll('.product-card-skeleton').forEach(el => el.remove());
+    document.querySelectorAll('.carousel-track')?.forEach(track => {
+        track.querySelectorAll('.product-card-skeleton').forEach(el => el.remove());
+    });
+    
     const heroSection = document.getElementById('hero-section');
     const heroSideImageContainer = document.querySelector('.hero-image');
     if (heroSection) {
@@ -170,7 +201,7 @@ function loadHomePage(data) {
 
     const categoryContainer = document.getElementById('category-links');
     if (categoryContainer) {
-        categoryContainer.innerHTML = '';
+        categoryContainer.innerHTML = ''; // Pastikan bersih sebelum mengisi
         (categories || []).forEach(cat => {
             const card = document.createElement('a');
             card.className = 'category-card';
@@ -183,7 +214,7 @@ function loadHomePage(data) {
 
     const popularTrack = document.querySelector('.popular-products .carousel-track');
     if (popularTrack) {
-        popularTrack.innerHTML = '';
+        popularTrack.innerHTML = ''; // Pastikan bersih sebelum mengisi
         if (popularProducts.length > 0) {
             popularProducts.forEach(product => {
                 const card = document.createElement('div');
@@ -205,9 +236,9 @@ function loadHomePage(data) {
 function createCategoryCarousel(categoryName, containerSelector, allProducts) {
     const track = document.querySelector(containerSelector);
     if (!track) return;
+    track.innerHTML = ''; // Pastikan bersih sebelum mengisi
     const categoryProducts = (allProducts || []).filter(p => p.category === categoryName);
     const shuffledProducts = categoryProducts.sort(() => 0.5 - Math.random()).slice(0, 6);
-    track.innerHTML = '';
     if (shuffledProducts.length > 0) {
         shuffledProducts.forEach(product => {
             const card = document.createElement('div');
@@ -223,7 +254,7 @@ function createCategoryCarousel(categoryName, containerSelector, allProducts) {
 function loadGalleryPage(images) {
     const container = document.querySelector('.gallery-container');
     if (!container) return;
-    container.innerHTML = '';
+    container.innerHTML = ''; // Pastikan bersih sebelum mengisi
     if (images.length > 0) {
         images.forEach(image => {
             const item = document.createElement('div');
@@ -241,6 +272,7 @@ function loadProductPage(allProducts) {
     const productGrid = document.querySelector('.product-grid-container');
     const pageTitle = document.querySelector('.product-page .section-title');
     if (!productGrid) return;
+    productGrid.innerHTML = ''; // Pastikan bersih sebelum mengisi
 
     const categoryOrder = ['Makanan Kering', 'Makanan Basah', 'Aksesoris', 'Obat-obatan'];
     (allProducts || []).sort((a, b) => {
@@ -259,7 +291,7 @@ function loadProductPage(allProducts) {
 
     const displayProducts = (category) => {
         let filtered = (category === 'all' || !category) ? productsToDisplay : productsToDisplay.filter(p => p.category === category);
-        productGrid.innerHTML = '';
+        productGrid.innerHTML = ''; // Pastikan bersih sebelum mengisi
         if (filtered.length > 0) {
             filtered.forEach(product => {
                 const card = document.createElement('div');
@@ -286,7 +318,6 @@ function loadProductPage(allProducts) {
             const targetButton = document.querySelector(`.filter-btn[data-category="${categoryFromURL}"]`);
             if (targetButton) targetButton.click();
         } else {
-            // Default to 'all' if no category is specified
              const allButton = document.querySelector('.filter-btn[data-category="all"]');
              if(allButton) allButton.classList.add('active');
             displayProducts('all');
@@ -304,9 +335,10 @@ function loadContactPage(contactData) {
         const phoneSpan = document.querySelector('#contact-phone span');
         const mapFrame = document.getElementById('google-map-iframe');
 
-        if(addressSpan) addressSpan.innerText = contactData.address || 'Alamat belum diatur.';
-        if(emailSpan) emailSpan.innerText = contactData.email || 'Email belum diatur.';
-        if(phoneSpan) phoneSpan.innerText = contactData.phone || 'Telepon belum diatur.';
+        // Ganti skeleton dengan data asli
+        if(addressSpan) addressSpan.innerHTML = contactData.address || 'Alamat belum diatur.';
+        if(emailSpan) emailSpan.innerHTML = contactData.email || 'Email belum diatur.';
+        if(phoneSpan) phoneSpan.innerHTML = contactData.phone || 'Telepon belum diatur.';
         if (mapFrame && contactData.mapUrl) mapFrame.src = contactData.mapUrl;
     }
 }
@@ -314,25 +346,47 @@ function loadContactPage(contactData) {
 function initCarousel(carouselContainer) {
     const track = carouselContainer.querySelector('.carousel-track');
     if (!track) return;
+    track.innerHTML = ''; // Pastikan bersih
 
-    let originalCards = Array.from(track.children);
+    let originalCardsData = [];
+    const showcaseType = carouselContainer.querySelector('.carousel-track').id;
+    
+    // Ini harusnya mengambil data dari 'websiteData' yang sudah di-cache
+    // Asumsi websiteData sudah menjadi variabel global atau bisa diakses
+    if (showcaseType === 'popular-products-track') { // Anda perlu memberi ID pada track produk populer
+         originalCardsData = window.websiteData.popularProducts || [];
+    } else {
+        const categoryName = showcaseType.replace('-track', '').replace(/-/g, ' ');
+        originalCardsData = (window.websiteData.mainProducts || []).filter(p => p.category.toLowerCase() === categoryName);
+    }
+    
+    if (originalCardsData.length < 1) return; // Keluar jika tidak ada data
+
+     const originalCards = originalCardsData.map(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `<img src="${product.imageUrl}" alt="${product.name}"><p>${product.name}</p>`;
+        return card;
+    });
+
     const nextButton = carouselContainer.querySelector('.carousel-button.next');
     const prevButton = carouselContainer.querySelector('.carousel-button.prev');
     
-    if (originalCards.length < 3 || !originalCards[0].querySelector('img')) {
+    if (originalCards.length < 3) { // Tampilkan tombol hanya jika item lebih dari 2
         if (nextButton) nextButton.style.display = 'none';
         if (prevButton) prevButton.style.display = 'none';
-        return;
+    } else {
+        if (nextButton) nextButton.style.display = 'flex';
+        if (prevButton) prevButton.style.display = 'flex';
     }
     
-    track.innerHTML = '';
     originalCards.forEach(card => track.appendChild(card));
 
     const cloneCount = Math.min(originalCards.length, 5);
     for (let i = 0; i < cloneCount; i++) {
         track.appendChild(originalCards[i].cloneNode(true));
     }
-    for (let i = originalCards.length - 1; i >= originalCards.length - cloneCount; i--) {
+    for (let i = originalCards.length - 1; i >= Math.max(0, originalCards.length - cloneCount); i--) {
         track.prepend(originalCards[i].cloneNode(true));
     }
 
@@ -377,6 +431,6 @@ function initCarousel(carouselContainer) {
         }
     });
 
-    setTimeout(() => setPosition(false), 100); 
+    setTimeout(() => setPosition(false), 150); 
     window.addEventListener('resize', () => setPosition(false));
 }
